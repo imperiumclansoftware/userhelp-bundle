@@ -1,0 +1,9 @@
+<ul id="tlyPageGuide" data-tourtitle="AIDE DE LA PAGE">
+    {% for key,element in elements %}
+        <li class="tlypageguide_{{ element.position }}" data-tourtarget="#{{ key }}">
+            <div>
+                {{ element.description|raw }}
+            </div>
+        </li>        
+    {% endfor %}
+</ul>
