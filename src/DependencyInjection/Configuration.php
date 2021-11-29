@@ -13,6 +13,10 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('userhelp');
         $treeBuilder->getRootNode()->children()
             ->scalarNode('helpButtonIdentifier')->defaultValue('helpButton')->end()
+            ->enumNode('helpColor')
+                ->values(['primary','secondary','success','warning','danger','info','dark'])
+                ->defaultValue('primary')
+            ->end()
             ->arrayNode('helps')
                 ->useAttributeAsKey('name')            
                 ->arrayPrototype()     

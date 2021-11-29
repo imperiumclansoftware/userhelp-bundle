@@ -1,21 +1,26 @@
+{% trans_default_domain('userhelp') %}
+
 <script src="{{ asset('bundles/userhelp/libs/tracelytics-pageguide/dist/js/pageguide.min.js') }}" language="javascript"></script>
 <script>
 $(document).ready(function(){
+    
     tl.pg.init({ 
         custom_open_button : '#{{ buttonId }}',
-        // track_events_cb : function(event) {
-        //     switch (event) {
-        //         case 'PG.open':
-        //                 $('#helpButton').addClass('btn-info')
-        //             break;
-        //         case 'PG.close':
-        //                 $('#helpButton').removeClass('btn-info')
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // },
+        track_events_cb : function(event) {
+            switch (event) {
+                case 'PG.open':
+                        $('#{{ buttonId }}').addClass('active')
+                    break;
+                case 'PG.close':
+                        $('#{{ buttonId }}').removeClass('active')
+                    break;
+                default:
+                    break;
+            }
+        },
         
     });
+    $('a.tlypageguide_close').html('{{ 'Close'|trans }}');
+    $('a.tlypageguide_close').attr('title',"{{ "Close guide"|trans|raw }}");
 });
 </script>

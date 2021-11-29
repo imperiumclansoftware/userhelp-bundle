@@ -1,0 +1,16 @@
+navigation:
+  navbars:
+    main:
+      tools:
+        helper:
+          url: '#'
+          icon: fa fa-question-circle
+          attrs:
+            id: helpButton
+          roles: ['ROLE_USER']
+        intro:
+          url: '#'
+          icon: fas fa-desktop
+          attrs:
+            id: introButton
+          roles: ['ROLE_USER']

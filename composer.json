@@ -16,6 +16,7 @@
         "symfony/routing": "^5",
         "symfony/form": "^5",
         "doctrine/orm": "^2.8",
-        "twig/twig": "^3.3"
+        "twig/twig": "^3.3",
+        "ics/navigation-bundle": "^0.0.7"
     }
 }

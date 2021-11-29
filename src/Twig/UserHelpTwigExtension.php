@@ -61,28 +61,37 @@ class UserHelpTwigExtension extends AbstractExtension
                 "buttonId" => $helpButtonConfig
             ]);
         }
-        return '';
+        else
+        {
+            return $this->twig->render('@Userhelp/help/help-disabled.html.twig',[
+                "buttonId" => $helpButtonConfig
+            ]);
+        }
     }
 
     public function addHelpCss()
     {
+        $helpColor = $this->config['helpColor'];
         if($this->useHelp())
         {
-            return $this->twig->render('@Userhelp/help/helpcss.html.twig',[]);
+            return $this->twig->render('@Userhelp/help/helpcss.html.twig',[
+                'color' => $helpColor
+            ]);
         }
         return '';
     }
 
     public function addHelpHtml()
     {
-        $helpConfig = $this->config['helps'][$this->request->get('_route')];
-
         if($this->useHelp())
         {
+            $helpConfig = $this->config['helps'][$this->request->get('_route')];
             return $this->twig->render('@Userhelp/help/help.html.twig',[
                 'elements' => $helpConfig['elements']
             ]);
         }
+
+        return '';
     }
 
     public function addIntroJs()
