@@ -3,7 +3,7 @@
     "description": "A new bundle for symfony",
     "type": "symfony-bundle",
     "license": "MIT",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "autoload": {
         "psr-4": {
             "ICS\\UserhelpBundle\\": "/src"
@@ -17,6 +17,6 @@
         "symfony/form": "^5",
         "doctrine/orm": "^2.8",
         "twig/twig": "^3.3",
-        "ics/navigation-bundle": "^0.0.7"
+        "ics/navigation-bundle": "^0"
     }
 }

@@ -7,6 +7,7 @@ navigation:
           icon: fa fa-question-circle
           attrs:
             id: helpButton
+            title: "Open help"
           roles: ['ROLE_USER']
         intro:
           url: '#'

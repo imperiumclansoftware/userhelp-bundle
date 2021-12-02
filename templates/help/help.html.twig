@@ -1,20 +1,22 @@
-<ul id="tlyPageGuide" data-tourtitle="AIDE DE LA PAGE">
-    {% for key,element in elements %}
-        <li class="tlypageguide_{{ element.position }}" data-tourtarget="#{{ key }}">
-            <div>
-                {{ element.description|raw }}
-            </div>
-        </li>        
-    {% endfor %}
+{% trans_default_domain('userhelp') %}
+
+<ul id="tlyPageGuide" data-tourtitle="{{ 'Page Help'|trans }}">
+	{% for key,element in elements %}
+		<li class="tlypageguide_{{ element.position }}" data-tourtarget="#{{ key }}">
+			<div>
+				{{ (element.description|raw)|trans }}
+			</div>
+		</li>
+	{% endfor %}
 </ul>
 <div class="tlyPageGuideWelcome">
-    <h4>Welcome on help.</h4>
-    <p>
-        you can choose to launch help or ignore and desactive this window definitly.
-    </p>
-    <div class="btn-group">
-        <button class="tlypageguide_start">let's go</button>
-        <button class="tlypageguide_ignore">not now</button>
-        <button class="tlypageguide_dismiss">got it, thanks</button>
-    </div>
+	<h4>{{'Welcome on help.'|trans}}</h4>
+	<p>
+		{{ 'you can choose to launch help or ignore and desactive this window definitly.'|trans }}
+	</p>
+	<div class="btn-group">
+		<button class="tlypageguide_start">{{ "let's go"|trans }}</button>
+		<button class="tlypageguide_ignore">{{ 'not now'|trans }}</button>
+		<button class="tlypageguide_dismiss">{{ 'got it, thanks'|trans }}</button>
+	</div>
 </div>

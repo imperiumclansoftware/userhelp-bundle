@@ -1,4 +1,5 @@
 <?php
+
 namespace ICS\UserhelpBundle\Twig;
 
 use Twig\TwigFunction;
@@ -21,31 +22,29 @@ class UserHelpTwigExtension extends AbstractExtension
     }
     public function getFilters()
     {
-        return [
-            
-        ];
+        return [];
     }
 
     public function getFunctions()
     {
         return [
-            new TwigFunction('AddHelpJS', [$this, 'addHelpJs'],[
+            new TwigFunction('AddHelpJS', [$this, 'addHelpJs'], [
                 'is_safe' => ['html'],
                 'needs_environment' => true
             ]),
-            new TwigFunction('AddHelpCSS', [$this, 'addHelpCss'],[
+            new TwigFunction('AddHelpCSS', [$this, 'addHelpCss'], [
                 'is_safe' => ['html'],
                 'needs_environment' => true
             ]),
-            new TwigFunction('AddHelpHtml', [$this, 'addHelpHtml'],[
+            new TwigFunction('AddHelpHtml', [$this, 'addHelpHtml'], [
                 'is_safe' => ['html'],
                 'needs_environment' => true
             ]),
-            new TwigFunction('AddIntroJS', [$this, 'addIntroJs'],[
+            new TwigFunction('AddIntroJS', [$this, 'addIntroJs'], [
                 'is_safe' => ['html'],
                 'needs_environment' => true
             ]),
-            new TwigFunction('AddIntroCSS', [$this, 'addIntroCss'],[
+            new TwigFunction('AddIntroCSS', [$this, 'addIntroCss'], [
                 'is_safe' => ['html'],
                 'needs_environment' => true
             ]),
@@ -55,15 +54,12 @@ class UserHelpTwigExtension extends AbstractExtension
     public function addHelpJs()
     {
         $helpButtonConfig = $this->config['helpButtonIdentifier'];
-        if($this->useHelp())
-        {
-            return $this->twig->render('@Userhelp/help/helpjs.html.twig',[
+        if ($this->useHelp()) {
+            return $this->twig->render('@Userhelp/help/helpjs.html.twig', [
                 "buttonId" => $helpButtonConfig
             ]);
-        }
-        else
-        {
-            return $this->twig->render('@Userhelp/help/help-disabled.html.twig',[
+        } else {
+            return $this->twig->render('@Userhelp/help/help-disabled.html.twig', [
                 "buttonId" => $helpButtonConfig
             ]);
         }
@@ -72,9 +68,8 @@ class UserHelpTwigExtension extends AbstractExtension
     public function addHelpCss()
     {
         $helpColor = $this->config['helpColor'];
-        if($this->useHelp())
-        {
-            return $this->twig->render('@Userhelp/help/helpcss.html.twig',[
+        if ($this->useHelp()) {
+            return $this->twig->render('@Userhelp/help/helpcss.html.twig', [
                 'color' => $helpColor
             ]);
         }
@@ -83,10 +78,9 @@ class UserHelpTwigExtension extends AbstractExtension
 
     public function addHelpHtml()
     {
-        if($this->useHelp())
-        {
+        if ($this->useHelp()) {
             $helpConfig = $this->config['helps'][$this->request->get('_route')];
-            return $this->twig->render('@Userhelp/help/help.html.twig',[
+            return $this->twig->render('@Userhelp/help/help.html.twig', [
                 'elements' => $helpConfig['elements']
             ]);
         }
@@ -96,18 +90,21 @@ class UserHelpTwigExtension extends AbstractExtension
 
     public function addIntroJs()
     {
-        if($this->useIntro())
-        {
-            return $this->twig->render('@Userhelp/intro/introjs.html.twig',[]);
+        $introButtonConfig = $this->config['introButtonIdentifier'];
+        if ($this->useIntro()) {
+            return $this->twig->render('@Userhelp/intro/introjs.html.twig', []);
+        } else {
+            return $this->twig->render('@Userhelp/intro/intro-disabled.html.twig', [
+                "buttonId" => $introButtonConfig
+            ]);
         }
         return '';
     }
 
     public function addIntroCss()
     {
-        if($this->useIntro())
-        {
-            return $this->twig->render('@Userhelp/intro/introcss.html.twig',[]);
+        if ($this->useIntro()) {
+            return $this->twig->render('@Userhelp/intro/introcss.html.twig', []);
         }
         return '';
     }
@@ -115,9 +112,8 @@ class UserHelpTwigExtension extends AbstractExtension
     private function useHelp(): bool
     {
         $helpConfig = $this->config['helps'];
-        
-        if(key_exists($this->request->get('_route'),$helpConfig))
-        {
+
+        if (key_exists($this->request->get('_route'), $helpConfig)) {
             return true;
         }
 
@@ -127,8 +123,7 @@ class UserHelpTwigExtension extends AbstractExtension
     private function useIntro(): bool
     {
         $introConfig = $this->config['intros'];
-        if(key_exists($this->request->get('_route'),$introConfig))
-        {
+        if (key_exists($this->request->get('_route'), $introConfig)) {
             return true;
         }
 
