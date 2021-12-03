@@ -1,1 +1,49 @@
+{% trans_default_domain('userhelp') %}
+
 <script src="{{ asset('bundles/userhelp/libs/intro.js-4.3.0/minified/intro.min.js') }}" language="javascript"></script>
+<script>
+	$(document).ready(function () {
+
+$('{{ "#" ~ buttonId }}').click(function(){
+    startIntro();
+});
+
+{% if defaultLaunch %}
+    startIntro();
+{% endif %}
+
+});
+
+function startIntro()
+{
+    introJs().setOptions({
+        theme : '{{ theme }}',
+        steps: [
+            {%  for key,element in elements %}
+                {
+                    element: document.querySelector('{{ "#" ~ key }}'),
+                    title: '{{ element.title|escape('js') }}',
+                    intro: '{{ element.description|raw|escape('js') }}'
+                    
+                }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ],
+        nextLabel: '{{ "next"|trans }}',
+        prevLabel: '{{ "previous"|trans }}',
+        doneLabel: '{{ "done"|trans }}',
+    }).oncomplete(function() {
+        {% if user %}
+            $.ajax({
+                url: '{{ path("ics-userhelp-record-intro-finished") }}',
+                method:'POST',
+                data: {
+                    'route' : '{{ route }}'
+                }
+            }).done(function(data){
+
+            });
+        {% endif %}
+    }).start();
+}
+
+</script>

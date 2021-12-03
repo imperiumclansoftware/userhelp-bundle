@@ -2,23 +2,30 @@
 
 namespace ICS\UserhelpBundle\Twig;
 
+use Doctrine\ORM\EntityManagerInterface;
+use ICS\UserhelpBundle\Entity\IntroSaver;
 use Twig\TwigFunction;
 use Twig\Extension\AbstractExtension;
 use Twig\Environment;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Security\Core\Security;
 
 class UserHelpTwigExtension extends AbstractExtension
 {
     private $twig;
     private $request;
     private $config;
+    private $doctrine;
+    private $security;
 
-    public function __construct(Environment $environment, RequestStack $requestStack, ParameterBagInterface $parameterBag)
+    public function __construct(Environment $environment, RequestStack $requestStack, ParameterBagInterface $parameterBag, EntityManagerInterface $doctrine,Security $security)
     {
         $this->twig = $environment;
         $this->request = $requestStack->getCurrentRequest();
         $this->config = $parameterBag->get('userhelp');
+        $this->doctrine = $doctrine;
+        $this->security = $security;
     }
     public function getFilters()
     {
@@ -91,8 +98,35 @@ class UserHelpTwigExtension extends AbstractExtension
     public function addIntroJs()
     {
         $introButtonConfig = $this->config['introButtonIdentifier'];
+        $theme = $this->config['introTheme'];
+        
+
+        
+
         if ($this->useIntro()) {
-            return $this->twig->render('@Userhelp/intro/introjs.html.twig', []);
+
+            $user= $this->security->getUser();
+
+            $savers=[];
+            if($user != null)
+            {
+                $savers = $this->doctrine->getRepository(IntroSaver::class)->findBy([
+                    'introRoute' => $this->request->get('_route'),
+                    'userId' => $user->getId()
+                ]);
+            }
+            
+            $defaultLaunch=(count($savers) == 0);
+
+            $introConfig = $this->config['intros'][$this->request->get('_route')];
+            return $this->twig->render('@Userhelp/intro/introjs.html.twig', [
+                'elements' => $introConfig['elements'],
+                "buttonId" => $introButtonConfig,
+                'theme' => $theme,
+                'route' => $this->request->get('_route'),
+                'defaultLaunch' => $defaultLaunch,
+                'user' => $user
+            ]);
         } else {
             return $this->twig->render('@Userhelp/intro/intro-disabled.html.twig', [
                 "buttonId" => $introButtonConfig
@@ -104,7 +138,10 @@ class UserHelpTwigExtension extends AbstractExtension
     public function addIntroCss()
     {
         if ($this->useIntro()) {
-            return $this->twig->render('@Userhelp/intro/introcss.html.twig', []);
+            $theme = $this->config['introTheme'];
+            return $this->twig->render('@Userhelp/intro/introcss.html.twig', [
+                'theme' => $theme
+            ]);
         }
         return '';
     }

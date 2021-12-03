@@ -3,6 +3,7 @@
 Userhelp management for symfony
 
 This bundle provide javascript help for symfony with :
+
 - [Tracelytics pageguide.js](https://tracelytics.github.io/pageguide/) for inline help
 
 ## Installation
@@ -48,7 +49,7 @@ return [
 
 ### Help Initialisation
 
-Add this lines in `base.html.twig`. The code show help only if route is configured in `userhelp.yaml` 
+Add this lines in `base.html.twig`. The code show help only if route is configured in `userhelp.yaml`
 
 ```twig
 {# ... #}
@@ -75,10 +76,11 @@ Create a new file `userhelp.yaml`
 ```yaml
 userhelp:
   helpColor: primary
+  helpButtonIdentifier: helpButton
   helps:
     homepage: # route to add help
       elements:
-        titlePage : # html element id
+        titlePage: # html element id
           position: bottom
           description: Title of the page # help for this element
         mainmenu:
@@ -88,7 +90,9 @@ userhelp:
           position: right
           description: return to <i class="fa fa-home"></i> homepage # html is enabled in help element
 ```
+
 `helpcolor` properties values are :
+
 - primary
 - secondary
 - success
@@ -97,8 +101,70 @@ userhelp:
 - info
 - dark
 
-`position` property vakues are :
+`position` property values are :
+
 - left
 - top
 - right
 - bottom
+
+### Intro Initialisation
+
+#### Routing Installation
+
+Intro needs route for save if user see all intro, configure `config/routes.yaml`
+
+```yaml
+# config/routes.yaml
+
+userhelp_bundle:
+  resource: "@UserhelpBundle/config/routes.yaml"
+  prefix: /user/help
+```
+
+Adding js and css files to your `base.html.twig`. The code show intro only if route is configured in `userhelp.yaml`
+
+```twig
+{# base.html.twig #}
+{# ... #}
+{{  AddIntroCSS() }}
+{% block stylesheets %}
+
+{% endblock %}
+{# ... #}
+{{  AddIntroJS() }}
+{% block javascripts %}
+
+{% endblock %}
+```
+
+### Intro configuraton
+
+Create a new file `userhelp.yaml`
+
+```yaml
+userhelp:
+  introButtonIdentifier: introButton
+  introTheme: modern
+  intros:
+    homepage: #Route name
+      elements:
+        pagetitle: #Element where intro step attach
+          title: Page title
+          description: description of the page title #Support HTML
+        leftmenu:
+          title: Menu of page
+        mainpage:
+          title: Content of page
+        rightmenu:
+          title: Menu of page
+```
+
+`introTheme` property values are :
+
+- dark
+- flattener
+- modern
+- nassim
+- nazanin
+- royal
