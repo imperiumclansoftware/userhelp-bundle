@@ -1,9 +1,9 @@
 {
   "name": "ics/userhelp-bundle",
-  "description": "A new bundle for symfony",
+  "description": "Bundle for manage user helps",
   "type": "symfony-bundle",
   "license": "MIT",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "autoload": {
     "psr-4": {
       "ICS\\UserhelpBundle\\": "/src"
@@ -18,6 +18,6 @@
     "doctrine/orm": "^2.8",
     "twig/twig": "^3.3",
     "ics/navigation-bundle": "^0",
-    "symfony/security-bundle": "^5.4"
+    "symfony/security-bundle": "^5"
   }
 }
